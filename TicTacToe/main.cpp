@@ -25,7 +25,7 @@ int main()
 				window.close();
 			}
 		}
-
+		game.update();
 		game.draw(window);
 		window.display();
 	}

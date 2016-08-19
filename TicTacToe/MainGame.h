@@ -7,6 +7,7 @@ class MainGame
 {
 public:
 	MainGame();
+	void update();
 	void draw(sf::RenderTarget & target) const;
 private:
 	std::vector<std::vector<Tile>> m_tiles;

@@ -5,6 +5,8 @@ class Tile : public sf::Drawable, public sf::Transformable
 public:
 	Tile();
 	void setspriteSheet(sf::Texture & spriteSheet);
+	void setPosition(sf::Vector2f position);
+	void update();
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 private:
 	sf::Sprite m_sprite;

@@ -7,7 +7,8 @@ class MainGame
 {
 public:
 	MainGame();
-	void update();
+	void processEvent(sf::Event event, sf::Window &window);
+	void update(sf::Clock clock);
 	void draw(sf::RenderTarget & target) const;
 private:
 	std::vector<std::vector<Tile>> m_tiles;

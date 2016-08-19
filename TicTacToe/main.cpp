@@ -24,9 +24,12 @@ int main()
 			{
 				window.close();
 			}
+
+			game.processEvent(event, window);
 		}
-		game.update();
+		game.update(clock);
 		game.draw(window);
+
 		window.display();
 	}
 

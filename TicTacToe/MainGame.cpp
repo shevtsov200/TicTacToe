@@ -2,6 +2,7 @@
 
 MainGame::MainGame() : m_tiles(m_matrixSize, std::vector<Tile>(m_matrixSize))
 {
+	m_isGameOver = false;
 	m_spriteSheet.loadFromFile("resources/spriteSheet.png");
 	for (int i = 0; i < m_matrixSize; i++)
 	{
@@ -11,7 +12,6 @@ MainGame::MainGame() : m_tiles(m_matrixSize, std::vector<Tile>(m_matrixSize))
 			m_tiles[i][j].setPosition(sf::Vector2f(j*m_tileSize, i*m_tileSize));
 		}
 	}
-	//m_tiles[0][0].setspriteSheet(m_spriteSheet);
 }
 
 void MainGame::processEvent(sf::Event event, sf::Window &window)
@@ -47,6 +47,50 @@ void MainGame::update(sf::Clock clock)
 			m_tiles[i][j].update();
 		}
 	}
+	Tile::states winner = checkWinningCondition();
+	if ( winner != Tile::EMPTY)
+	{
+		endGame(winner);
+	}
+}
+
+Tile::states MainGame::checkWinningCondition()
+{
+	Tile::states winner = Tile::EMPTY;
+	for (int i = 0; i < m_matrixSize; i++)
+	{
+		//***
+		
+		if ((m_tiles[i][0].getState() == m_tiles[i][1].getState()) && (m_tiles[i][0].getState() == m_tiles[i][2].getState()))
+		{
+			winner = m_tiles[i][0].getState();
+			break;
+		}
+		//*
+		//*
+		//*
+		else if ((m_tiles[0][i].getState() == m_tiles[1][i].getState()) && (m_tiles[0][i].getState() ==  m_tiles[2][i].getState()))
+		{
+			winner = m_tiles[0][i].getState();
+			break;
+		}
+	}
+	//*--
+	//-*-
+	//--*
+	if ((m_tiles[0][0].getState() == m_tiles[1][1].getState()) && (m_tiles[0][0].getState() == m_tiles[2][2].getState()))
+	{
+		winner = m_tiles[0][0].getState();
+	}
+	//--*
+	//-*-
+	//*--
+	else if ((m_tiles[0][2].getState() == m_tiles[1][1].getState()) && (m_tiles[0][2].getState() == m_tiles[2][0].getState()))
+	{
+		winner = m_tiles[0][2].getState();
+	}
+	return winner;
+
 }
 
 void MainGame::draw(sf::RenderTarget & target) const
@@ -58,5 +102,14 @@ void MainGame::draw(sf::RenderTarget & target) const
 			target.draw(m_tiles[i][j]);
 		}
 	}
-	//target.draw(m_tiles[0][0]);
+}
+
+void MainGame::endGame(Tile::states winner)
+{
+	m_isGameOver = true;
+}
+
+bool MainGame::getIsGameOver() const
+{
+	return m_isGameOver;
 }

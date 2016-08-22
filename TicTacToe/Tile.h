@@ -9,6 +9,7 @@ public:
 	void update();
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	sf::Sprite getSprite() const;
+	Tile::states getState() const;
 	void setspriteSheet(sf::Texture & spriteSheet);
 	void setPosition(sf::Vector2f position);
 	void setState(states state);

@@ -49,3 +49,8 @@ sf::Sprite Tile::getSprite() const
 {
 	return m_sprite;
 }
+
+Tile::states Tile::getState() const
+{
+	return m_state;
+}

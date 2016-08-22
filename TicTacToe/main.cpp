@@ -30,6 +30,10 @@ int main()
 		game.update(clock);
 		game.draw(window);
 
+		if (game.getIsGameOver())
+		{
+			window.close();
+		}
 		window.display();
 	}
 

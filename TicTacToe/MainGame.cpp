@@ -14,6 +14,50 @@ MainGame::MainGame() : m_tiles(m_matrixSize, std::vector<Tile>(m_matrixSize))
 	}
 }
 
+int MainGame::run(sf::RenderWindow & app)
+{
+	sf::Event event;
+	bool running = true;
+	while (running)
+	{
+		while (app.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				return(-1);
+			}
+			processEvent(event, app);
+		}
+		update();
+		draw(app);
+		if (getIsGameOver())
+		{
+			return(-1);
+		}
+		app.display();
+	}
+	/*
+	while (window.pollEvent(event))
+	{
+	if (event.type == sf::Event::Closed)
+	{
+	window.close();
+	}
+
+	game.processEvent(event, window);
+	}
+	game.update(clock);
+	game.draw(window);
+
+	if (game.getIsGameOver())
+	{
+	window.close();
+	}
+	window.display();
+	}*/
+	return 0;
+}
+
 void MainGame::processEvent(sf::Event event, sf::Window &window)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
@@ -38,7 +82,7 @@ void MainGame::processEvent(sf::Event event, sf::Window &window)
 	}
 }
 
-void MainGame::update(sf::Clock clock)
+void MainGame::update()
 {
 	for (int i = 0; i < m_matrixSize; i++)
 	{

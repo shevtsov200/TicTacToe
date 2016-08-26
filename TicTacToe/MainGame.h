@@ -1,14 +1,16 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "Screen.h"
 #include "vector"
 #include "Tile.h"
 
-class MainGame
+class MainGame : public Screen
 {
 public:
 	MainGame();
+	virtual int run(sf::RenderWindow &app);
 	void processEvent(sf::Event event, sf::Window &window);
-	void update(sf::Clock clock);
+	void update();
 	Tile::states checkWinningCondition();
 	void draw(sf::RenderTarget & target) const;
 	void endGame(Tile::states winner);

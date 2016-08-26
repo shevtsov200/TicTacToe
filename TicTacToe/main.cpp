@@ -1,6 +1,8 @@
 #include <SFML\Graphics.hpp>
+#include <iostream>
+#include "MainMenu.hpp"
 #include "MainGame.h"
-
+#include "Screen.h"
 int main()
 {
 	const int TILE_SIZE = 128;
@@ -8,13 +10,22 @@ int main()
 	const int WINDOW_WIDTH = TILE_SIZE*TILES_NUMBER;
 	const int WINDOW_HEIGHT = WINDOW_WIDTH;
 
+	std::vector<Screen*> screens;
+	int screen = 0;
+
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tic Tac Toe");
-
+	MainMenu mainMenu;
 	MainGame game;
-
+	screens.push_back(&mainMenu);
+	screens.push_back(&game);
 	sf::Clock clock;
 
-	while (window.isOpen())
+
+	while (screen >= 0)
+	{
+		screen = screens[screen]->run(window);
+	}
+	/*while (window.isOpen())
 	{
 		sf::Event event;
 
@@ -35,7 +46,7 @@ int main()
 			window.close();
 		}
 		window.display();
-	}
+	}*/
 
 	return 0;
 };

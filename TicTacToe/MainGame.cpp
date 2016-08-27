@@ -76,6 +76,7 @@ void MainGame::processEvent(sf::Event event, sf::Window &window)
 					{
 						m_tiles[i][j].setState(Tile::ZERO);
 					}
+
 				}
 			}
 		}
@@ -101,35 +102,59 @@ void MainGame::update()
 Tile::states MainGame::checkWinningCondition()
 {
 	Tile::states winner = Tile::EMPTY;
-	for (int i = 0; i < m_matrixSize; i++)
+	//***
+	//---
+	//---
+	if (ifCellsEqual(m_tiles, { 0,0 }, { 0,1 }, { 0,2 }))
 	{
-		//***
-		
-		if ((m_tiles[i][0].getState() == m_tiles[i][1].getState()) && (m_tiles[i][0].getState() == m_tiles[i][2].getState()))
-		{
-			winner = m_tiles[i][0].getState();
-			break;
-		}
-		//*
-		//*
-		//*
-		else if ((m_tiles[0][i].getState() == m_tiles[1][i].getState()) && (m_tiles[0][i].getState() ==  m_tiles[2][i].getState()))
-		{
-			winner = m_tiles[0][i].getState();
-			break;
-		}
+		winner = m_tiles[0][0].getState();
+	}
+	//---
+	//***
+	//---
+	else if(ifCellsEqual(m_tiles, { 1,0 }, { 1,1 }, { 1,2 }))
+	{
+		winner = m_tiles[1][0].getState();
+	}
+	//---
+	//---
+	//***
+	else if (ifCellsEqual(m_tiles, { 2,0 }, { 2,1 }, { 2,2 }))
+	{
+		winner = m_tiles[2][0].getState();
+	}
+	//*--
+	//*--
+	//*--
+	else if (ifCellsEqual(m_tiles, { 0 ,0 }, { 1 ,0 }, { 2 ,0 }))
+	{
+		winner = m_tiles[0][0].getState();
+	}
+	//-*-
+	//-*-
+	//-*-
+	else if (ifCellsEqual(m_tiles, { 0, 1 }, { 1 ,1 }, { 2, 1 }))
+	{
+		winner = m_tiles[0][1].getState();
+	}
+	//--*
+	//--*
+	//--*
+	else if (ifCellsEqual(m_tiles, { 0 ,2 }, { 1 ,2 }, { 2 , 2 }))
+	{
+		winner = m_tiles[0][2].getState();
 	}
 	//*--
 	//-*-
 	//--*
-	if ((m_tiles[0][0].getState() == m_tiles[1][1].getState()) && (m_tiles[0][0].getState() == m_tiles[2][2].getState()))
+	else if (ifCellsEqual(m_tiles, { 0,0 }, { 1,1 }, { 2,2 }))
 	{
 		winner = m_tiles[0][0].getState();
 	}
 	//--*
 	//-*-
 	//*--
-	else if ((m_tiles[0][2].getState() == m_tiles[1][1].getState()) && (m_tiles[0][2].getState() == m_tiles[2][0].getState()))
+	else if (ifCellsEqual(m_tiles, { 0,2 }, { 1,1 }, { 2,0 }))
 	{
 		winner = m_tiles[0][2].getState();
 	}
@@ -156,4 +181,24 @@ void MainGame::endGame(Tile::states winner)
 bool MainGame::getIsGameOver() const
 {
 	return m_isGameOver;
+}
+
+std::vector<std::vector<Tile>> & MainGame::getTilesVector()
+{
+	return m_tiles;
+}
+
+bool MainGame::ifCellsEqual(std::vector<std::vector<Tile>>& tiles, sf::Vector2i firstTile, sf::Vector2i secondTile, sf::Vector2i thirdTile)
+{
+	Tile::states firstTileState = m_tiles[firstTile.x][firstTile.y].getState();
+	Tile::states secondTileState = m_tiles[secondTile.x][secondTile.y].getState();
+	Tile::states thirdTileState = m_tiles[thirdTile.x][thirdTile.y].getState();
+	if ((firstTileState != Tile::EMPTY) || (secondTileState != Tile::EMPTY) || (thirdTileState != Tile::EMPTY))
+	{
+		return ((firstTileState == secondTileState) && (firstTileState == thirdTileState));
+	}
+	else
+	{
+		return false;
+	}
 }

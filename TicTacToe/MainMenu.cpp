@@ -15,6 +15,8 @@ int MainMenu::run(sf::RenderWindow &app)
 
 	font.loadFromFile("resources/verdanab.ttf");
 
+	//TODO: Replace this horrible button system with a list.
+
 	playButton.setFont(font);
 	playButton.setCharacterSize(20);
 	playButton.setString("Play");
@@ -25,8 +27,8 @@ int MainMenu::run(sf::RenderWindow &app)
 	exitButton.setString("Exit");
 	exitButton.setPosition(0, 280);
 
-	playButton.setColor(sf::Color::Black);
-	exitButton.setColor(sf::Color::Black);
+	playButton.setColor(sf::Color::White);
+	exitButton.setColor(sf::Color::White);
 	while (running)
 	{
 		while (app.pollEvent(event))
@@ -35,20 +37,49 @@ int MainMenu::run(sf::RenderWindow &app)
 			{
 				return(-1);
 			}
-			if (event.type == sf::Event::KeyPressed)
+			switch (event.key.code)
 			{
-				if (event.key.code == sf::Keyboard::Return)
+			case sf::Keyboard::Up:
+				if (menu > 0)
+					menu -= 1;
+				else
+					menu = 2;
+				break;
+			case sf::Keyboard::Down:
+				if (menu < 2)
+					menu += 1;
+				else
+					menu = 0;
+				break;
+			case sf::Keyboard::Return:
+				if (menu == 0)
 				{
 					m_playing = true;
 					return(1);
 				}
+				else
+				{
+					return (-1);
+				}
+				break;
+			default:
+				break;
 			}
 		}
+		if (menu == 0)
+		{
+			playButton.setColor(sf::Color::Red);
+			exitButton.setColor(sf::Color::White);
+		}
+		else if (menu == 1)
+		{
+			playButton.setColor(sf::Color::White);
+			exitButton.setColor(sf::Color::Red);
+		}
+		app.clear();
+		app.draw(playButton);
+		app.draw(exitButton);
+		app.display();
 	}
-
-	app.clear();
-
-	app.draw(playButton);
-	app.draw(exitButton);
-	app.display();
+	return(-1);
 }
